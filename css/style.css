@@ -1,0 +1,793 @@
+/* =====================================================
+   乒乓器材网 - 主样式表
+   ===================================================== */
+
+/* CSS变量 */
+:root {
+    --primary-color: #e63946;
+    --primary-dark: #c1272d;
+    --secondary-color: #1d3557;
+    --secondary-light: #457b9d;
+    --accent-color: #f4a261;
+    --text-color: #333;
+    --text-light: #666;
+    --bg-color: #fff;
+    --bg-light: #f8f9fa;
+    --bg-dark: #1d3557;
+    --border-color: #ddd;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.15);
+    --radius: 8px;
+    --radius-lg: 12px;
+    --transition: all 0.3s ease;
+}
+
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 容器 */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 通用部分 */
+.section {
+    padding: 60px 0;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary-color);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.section-desc {
+    text-align: center;
+    color: var(--text-light);
+    max-width: 700px;
+    margin: 0 auto 40px;
+    font-size: 1.1rem;
+}
+
+.bg-light {
+    background-color: var(--bg-light);
+}
+
+/* 按钮 */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--secondary-color);
+    border: 2px solid var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* =====================================================
+   导航栏
+   ===================================================== */
+.navbar {
+    background-color: var(--bg-color);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 8px 0;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+.nav-links a.active {
+    color: var(--primary-color);
+}
+
+/* 移动端菜单按钮 */
+.mobile-menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.mobile-menu-btn span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--secondary-color);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+/* =====================================================
+   首页横幅
+   ===================================================== */
+.hero {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%);
+    color: white;
+    padding: 100px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* =====================================================
+   介绍卡片
+   ===================================================== */
+.intro-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.card p {
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.card-link {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.card-link:hover {
+    color: var(--primary-dark);
+}
+
+/* =====================================================
+   热门推荐
+   ===================================================== */
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.featured-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    position: relative;
+    transition: var(--transition);
+}
+
+.featured-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.featured-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--secondary-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.featured-badge.rubber {
+    background: var(--primary-color);
+}
+
+.featured-item h3 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.featured-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.spec {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.spec strong {
+    color: var(--text-color);
+}
+
+.featured-rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.rating-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.rating-stars {
+    color: var(--accent-color);
+}
+
+/* =====================================================
+   知识科普
+   ===================================================== */
+.knowledge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.knowledge-item {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary-color);
+}
+
+.knowledge-item h3 {
+    color: var(--secondary-color);
+    margin-bottom: 12px;
+}
+
+.knowledge-item p {
+    color: var(--text-light);
+    line-height: 1.8;
+}
+
+.knowledge-item strong {
+    color: var(--primary-color);
+}
+
+/* =====================================================
+   页脚
+   ===================================================== */
+.footer {
+    background-color: var(--bg-dark);
+    color: white;
+    padding: 50px 0 20px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-section h4 {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.footer-section p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-section a:hover {
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+/* =====================================================
+   内页通用样式
+   ===================================================== */
+.page-header {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.page-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.page-header p {
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 产品列表 */
+.products-section {
+    padding: 60px 0;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.product-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.product-image {
+    height: 180px;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+
+.product-info {
+    padding: 20px;
+}
+
+.product-info h3 {
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+}
+
+.product-brand {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.product-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.product-spec {
+    background: var(--bg-light);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.product-description {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.product-rating {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.rating-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.rating-item span:first-child {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.rating-bar {
+    height: 8px;
+    width: 80px;
+    background: var(--bg-light);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.rating-fill {
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+/* 分类标签 */
+.category-tabs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.category-tab {
+    padding: 10px 25px;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.category-tab:hover,
+.category-tab.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* 子标题 */
+.sub-section {
+    margin-bottom: 50px;
+}
+
+.sub-section-title {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+}
+
+/* =====================================================
+   选购指南页面
+   ===================================================== */
+.guide-section {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow);
+}
+
+.guide-section h2 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.guide-section h3 {
+    color: var(--primary-color);
+    margin: 20px 0 10px;
+}
+
+.guide-section p {
+    color: var(--text-light);
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.guide-section ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.guide-section li {
+    color: var(--text-light);
+    margin-bottom: 8px;
+    list-style-type: disc;
+}
+
+.guide-section li strong {
+    color: var(--text-color);
+}
+
+.tip-box {
+    background: #fff8e1;
+    border-left: 4px solid var(--accent-color);
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.tip-box strong {
+    color: var(--accent-color);
+}
+
+/* 对比表格 */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.comparison-table th,
+.comparison-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-table th {
+    background: var(--bg-light);
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+.comparison-table tr:hover {
+    background: var(--bg-light);
+}
+
+/* =====================================================
+   响应式设计
+   ===================================================== */
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        gap: 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 15px 0;
+    }
+
+    .hero {
+        padding: 60px 20px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .section {
+        padding: 40px 0;
+    }
+
+    .intro-cards,
+    .featured-grid,
+    .knowledge-grid,
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .comparison-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .card {
+        padding: 20px;
+    }
+}
