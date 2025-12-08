@@ -10,11 +10,12 @@ This application provides a GUI interface for remote monitoring using Redis pub/
 import sys
 import json
 import threading
+import time
 from datetime import datetime
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QLineEdit, QPushButton, QTextEdit, QGroupBox, QButtonGroup,
-    QRadioButton
+    QRadioButton, QMessageBox
 )
 from PyQt5.QtCore import Qt, pyqtSignal, QObject
 from PyQt5.QtGui import QFont
@@ -78,7 +79,6 @@ class RedisListener(QObject):
                 if self.running:
                     self.message_received.emit('error', str(e))
             finally:
-                import time
                 time.sleep(0.1)
     
     def publish(self, channel, message):
@@ -226,7 +226,16 @@ class MonitoringCenterApp(QMainWindow):
     def start_service(self):
         """Start monitoring service"""
         host = self.addr_input.text()
-        port = int(self.port_input.text())
+        
+        # Validate port input
+        try:
+            port = int(self.port_input.text())
+            if port < 1 or port > 65535:
+                QMessageBox.warning(self, '错误', '端口号必须在 1-65535 之间')
+                return
+        except ValueError:
+            QMessageBox.warning(self, '错误', '请输入有效的端口号')
+            return
         
         self.log_message(f"正在连接到 Redis 服务器 {host}:{port}...")
         
@@ -366,7 +375,6 @@ class MonitoringCenterApp(QMainWindow):
     
     def simulate_query_results(self):
         """Simulate query results"""
-        import time
         time.sleep(0.5)  # Simulate network delay
         
         if self.current_tab == 'device_status':

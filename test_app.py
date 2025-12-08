@@ -6,6 +6,7 @@ Test script to validate the monitoring center application
 
 import sys
 import time
+import os
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPixmap
@@ -20,13 +21,17 @@ def test_application():
     window = MonitoringCenterApp()
     window.show()
     
+    # Get the directory of this script
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    
     # Schedule screenshot and exit
     def take_screenshot_and_exit():
         # Take a screenshot
         screen = app.primaryScreen()
         screenshot = screen.grabWindow(window.winId())
-        screenshot.save('/home/runner/work/shusan/shusan/screenshot_monitoring_center.png')
-        print("Screenshot saved: screenshot_monitoring_center.png")
+        screenshot_path = os.path.join(script_dir, 'screenshot_monitoring_center.png')
+        screenshot.save(screenshot_path)
+        print(f"Screenshot saved: {screenshot_path}")
         
         # Log some test messages
         window.log_message("=" * 60)
@@ -39,8 +44,9 @@ def test_application():
         # Take another screenshot with content
         time.sleep(0.5)
         screenshot = screen.grabWindow(window.winId())
-        screenshot.save('/home/runner/work/shusan/shusan/screenshot_with_content.png')
-        print("Screenshot with content saved: screenshot_with_content.png")
+        screenshot_path_content = os.path.join(script_dir, 'screenshot_with_content.png')
+        screenshot.save(screenshot_path_content)
+        print(f"Screenshot with content saved: {screenshot_path_content}")
         
         # Exit application
         QTimer.singleShot(100, app.quit)
