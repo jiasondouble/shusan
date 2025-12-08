@@ -116,8 +116,13 @@ python monitoring_center.py
 ```
 shusan/
 ├── monitoring_center.py      # 主应用程序
+├── mock_redis_server.py       # 简单的 Redis 模拟发布器
+├── integration_example.py     # 真实系统集成示例
+├── test_app.py                # 自动化测试脚本
 ├── requirements.txt           # Python 依赖
+├── start.sh                   # 快速启动脚本
 ├── README.md                  # 项目说明（本文件）
+├── USAGE.md                   # 详细使用指南
 └── 地铁应急疏散控制器联动方案.md  # 系统方案文档
 ```
 
@@ -134,6 +139,21 @@ shusan/
 - 主应用窗口
 - 管理 UI 组件和用户交互
 - 处理 Redis 消息和控制逻辑
+
+### 集成到真实系统
+
+使用 `integration_example.py` 作为参考：
+
+```bash
+# 运行监控模式（持续发布监控数据）
+python3 integration_example.py localhost 8899 monitor
+
+# 运行命令处理模式
+python3 integration_example.py localhost 8899 command
+
+# 运行查询处理模式
+python3 integration_example.py localhost 8899 query
+```
 
 ### 扩展功能
 
