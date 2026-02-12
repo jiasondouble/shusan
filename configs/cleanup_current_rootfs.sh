@@ -5,6 +5,9 @@
 # ★ 这是在开发板上直接执行的临时清理脚本
 # ★ 用于验证裁剪效果，正式版应在 Buildroot 中关闭对应的包
 #
+# ⚠️ 警告: 此脚本会删除大量系统文件, 仅用于测试验证!
+# ⚠️ 正式裁剪请在 Buildroot menuconfig 中操作后重新编译!
+#
 # 使用: sh cleanup_current_rootfs.sh
 # ============================================================
 
@@ -12,6 +15,47 @@ set -e
 
 echo "清理前:"
 df -h /
+echo ""
+
+# ──────────────────────────────────────
+# [0] ★★★ 安全检查: 先修复 /bin/sh 指向 busybox ★★★
+#     防止删除 bash 后系统无法启动
+# ──────────────────────────────────────
+echo "[0] 安全检查: 确保 /bin/sh 指向 busybox ..."
+
+BUSYBOX_PATH=""
+if [ -x /bin/busybox ]; then
+    BUSYBOX_PATH=/bin/busybox
+elif [ -x /usr/bin/busybox ]; then
+    BUSYBOX_PATH=/usr/bin/busybox
+elif [ -x /usr/sbin/busybox ]; then
+    BUSYBOX_PATH=/usr/sbin/busybox
+fi
+
+if [ -z "$BUSYBOX_PATH" ]; then
+    echo "错误: 找不到 busybox! 中止清理, 否则系统会变砖!"
+    exit 1
+fi
+
+echo "  找到 busybox: $BUSYBOX_PATH"
+
+# 强制让 /bin/sh 指向 busybox (最关键的一步!)
+rm -f /bin/sh
+ln -sf "$BUSYBOX_PATH" /bin/sh
+echo "  /bin/sh -> $BUSYBOX_PATH [已修复]"
+
+# 同时确保 /bin/ash 也存在
+rm -f /bin/ash
+ln -sf "$BUSYBOX_PATH" /bin/ash
+echo "  /bin/ash -> $BUSYBOX_PATH [已修复]"
+
+# 验证 /bin/sh 可用
+if ! /bin/sh -c "echo '  /bin/sh 验证通过'" 2>/dev/null; then
+    echo "错误: /bin/sh 不可用! 中止清理!"
+    exit 1
+fi
+
+echo "  安全检查通过, 开始清理..."
 echo ""
 
 # ──────────────────────────────────────
@@ -154,6 +198,7 @@ rm -f  /usr/lib/liblvgl.so*               # LVGL图形库 1.1MB
 rm -f  /usr/lib/libtiff.so*               # TIFF图片 0.5MB
 rm -f  /usr/lib/libdrm.so*                # DRM 0.1MB
 rm -f  /usr/sbin/irqbalance               # 1.2MB
+# ★ bash 必须在 [0] 修复 /bin/sh 之后再删
 rm -f  /usr/bin/bash                       # 用 busybox ash 0.9MB
 rm -f  /usr/bin/inotifywait                # 0.6MB
 rm -f  /usr/bin/input-event-daemon         # 0.4MB
