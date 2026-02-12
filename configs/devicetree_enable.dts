@@ -1,0 +1,177 @@
+/*
+ * ============================================================
+ * RK3506 网关裁剪 — 设备树需要【保留/启用】的节点
+ *
+ * 使用方法：
+ * 在你的板级 dts 文件（如 rk3506-gateway.dts）中确保以下节点 okay。
+ * 引脚号、PHY地址等根据实际硬件原理图修改。
+ * ============================================================
+ */
+
+/* ====== ★ CAN0 ====== */
+&can0 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&can0m0_pins>;   /* 根据实际复用组修改 m0/m1 */
+};
+
+/* ====== ★ CAN1 (如有第二路 CAN) ====== */
+&can1 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&can1m0_pins>;
+};
+
+/* ====== ★ UART1 — RS485 ====== */
+&uart1 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart1m0_xfer>;  /* 根据实际复用组修改 */
+    /* RS485 方向控制 (RTS) */
+    linux,rs485-enabled-at-boot-time;
+    rs485-rts-active-low;          /* 根据硬件 DE/RE 控制逻辑调整 */
+    /* 或使用 GPIO 控制 RS485 方向:
+     * rs485-rts-delay = <1 1>;
+     * rts-gpios = <&gpio0 RK_PA4 GPIO_ACTIVE_HIGH>;
+     */
+};
+
+/* ====== ★ UART2 — 调试串口 (console) ====== */
+&uart2 {
+    status = "okay";
+    pinctrl-names = "default";
+    pinctrl-0 = <&uart2m0_xfer>;
+};
+
+/* ====== ★ 以太网 GMAC ====== */
+&gmac {
+    status = "okay";
+    phy-mode = "rmii";            /* 或 "rgmii" 根据实际硬件 */
+    clock_in_out = "output";       /* 或 "input" */
+    assigned-clocks = <&cru CLK_GMAC_SRC>;
+    assigned-clock-rates = <50000000>;  /* RMII: 50MHz, RGMII: 125MHz */
+
+    snps,reset-gpio = <&gpio0 RK_PA7 GPIO_ACTIVE_LOW>;
+    snps,reset-active-low;
+    snps,reset-delays-us = <0 50000 50000>;
+
+    phy-handle = <&phy0>;
+
+    mdio {
+        compatible = "snps,dwmac-mdio";
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        phy0: phy@0 {
+            compatible = "ethernet-phy-ieee802.3-c22";
+            reg = <0>;                /* PHY 地址，根据硬件修改 */
+        };
+    };
+};
+
+/* ====== ★ 如果有第二路以太网 (EMAC) ====== */
+/*
+&emac {
+    status = "okay";
+    phy-mode = "rmii";
+    phy-handle = <&phy1>;
+
+    mdio {
+        phy1: phy@1 {
+            reg = <1>;
+        };
+    };
+};
+*/
+
+/* ====== ★ GPIO — LED / 继电器 / 方向控制 ====== */
+&pinctrl {
+    leds {
+        led_run: led-run {
+            rockchip,pins = <0 RK_PA5 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+        led_err: led-err {
+            rockchip,pins = <0 RK_PA6 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+    };
+
+    rs485 {
+        rs485_dir: rs485-dir {
+            rockchip,pins = <0 RK_PA4 RK_FUNC_GPIO &pcfg_pull_none>;
+        };
+    };
+};
+
+/* GPIO LED 子系统（可选，也可以直接操作 /sys/class/gpio） */
+/ {
+    leds {
+        compatible = "gpio-leds";
+
+        run-led {
+            label = "run";
+            gpios = <&gpio0 RK_PA5 GPIO_ACTIVE_HIGH>;
+            linux,default-trigger = "heartbeat";
+        };
+
+        error-led {
+            label = "error";
+            gpios = <&gpio0 RK_PA6 GPIO_ACTIVE_HIGH>;
+            default-state = "off";
+        };
+    };
+};
+
+/* ====== ★ 看门狗 ====== */
+&wdt {
+    status = "okay";
+};
+
+/* ====== ★ I2C0 — RTC / EEPROM ====== */
+&i2c0 {
+    status = "okay";
+    clock-frequency = <400000>;
+
+    /* RTC 芯片 (示例: HYM8563) */
+    rtc@51 {
+        compatible = "haoyu,hym8563";
+        reg = <0x51>;
+        #clock-cells = <0>;
+        clock-output-names = "rtc_32k";
+    };
+
+    /* EEPROM (示例: AT24C64) */
+    eeprom@50 {
+        compatible = "atmel,24c64";
+        reg = <0x50>;
+        pagesize = <32>;
+    };
+};
+
+/* ====== ★ SPI — SPI NOR / SPI NAND ====== */
+&sfc {
+    status = "okay";
+
+    flash@0 {
+        compatible = "jedec,spi-nor";  /* 或 "spi-nand" */
+        reg = <0>;
+        spi-max-frequency = <80000000>;
+        spi-rx-bus-width = <4>;
+        spi-tx-bus-width = <1>;
+    };
+};
+
+/* ====== ★ eMMC (如使用 eMMC) ====== */
+&emmc {
+    status = "okay";
+    bus-width = <8>;
+    cap-mmc-highspeed;
+    mmc-hs200-1_8v;
+    non-removable;
+    no-sdio;
+    no-sd;
+};
+
+/* ====== ★ 电源管理 ====== */
+&cpu0 {
+    cpu-supply = <&vdd_arm>;
+};

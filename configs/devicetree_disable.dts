@@ -1,0 +1,202 @@
+/*
+ * ============================================================
+ * RK3506 网关裁剪 — 设备树需要【禁用】的节点
+ *
+ * 使用方法：
+ * 在你的板级 dts 文件（如 rk3506-gateway.dts）中，
+ * 将以下 &xxx { status = "disabled"; }; 添加进去。
+ * ============================================================
+ */
+
+/* ====== WiFi (SDIO 接口) ====== */
+&sdio {
+    status = "disabled";
+};
+
+&wireless_wlan {
+    status = "disabled";
+};
+
+&sdio_pwrseq {
+    status = "disabled";
+};
+
+/* ====== 蓝牙 (通常挂在 UART) ====== */
+&wireless_bluetooth {
+    status = "disabled";
+};
+
+/* ====== 音频 ====== */
+&i2s0 {
+    status = "disabled";
+};
+
+&i2s1 {
+    status = "disabled";
+};
+
+&i2s2 {
+    status = "disabled";
+};
+
+&pdm {
+    status = "disabled";
+};
+
+&spdif {
+    status = "disabled";
+};
+
+&sai0 {
+    status = "disabled";
+};
+
+&sai1 {
+    status = "disabled";
+};
+
+&codec {
+    status = "disabled";
+};
+
+&acodec {
+    status = "disabled";
+};
+
+&sound {
+    status = "disabled";
+};
+
+/* ====== HDMI ====== */
+&hdmi {
+    status = "disabled";
+};
+
+&hdmi_in_vop {
+    status = "disabled";
+};
+
+/* ====== 显示 VOP/LCDC ====== */
+/* 如果完全无屏：*/
+&vop {
+    status = "disabled";
+};
+
+&vop_out {
+    status = "disabled";
+};
+
+/* ====== MIPI DSI ====== */
+&dsi {
+    status = "disabled";
+};
+
+&dsi_in_vop {
+    status = "disabled";
+};
+
+&dsi_panel {
+    status = "disabled";
+};
+
+/* ====== LVDS ====== */
+&lvds {
+    status = "disabled";
+};
+
+&lvds_in_vop {
+    status = "disabled";
+};
+
+/* ====== RGB 显示 ====== */
+&rgb {
+    status = "disabled";
+};
+
+&rgb_in_vop {
+    status = "disabled";
+};
+
+/* ====== GPU ====== */
+&gpu {
+    status = "disabled";
+};
+
+/* ====== 摄像头 / ISP ====== */
+&csi2_dphy {
+    status = "disabled";
+};
+
+&rkisp {
+    status = "disabled";
+};
+
+&rkisp_vir0 {
+    status = "disabled";
+};
+
+&isp {
+    status = "disabled";
+};
+
+/* ====== 视频编解码 ====== */
+&vdpu {
+    status = "disabled";
+};
+
+&vepu {
+    status = "disabled";
+};
+
+&rkvdec {
+    status = "disabled";
+};
+
+&rkvenc {
+    status = "disabled";
+};
+
+&mpp_srv {
+    status = "disabled";
+};
+
+/* ====== RGA ====== */
+&rga {
+    status = "disabled";
+};
+
+/* ====== PWM (如不需要) ====== */
+&pwm0 {
+    status = "disabled";
+};
+
+&pwm1 {
+    status = "disabled";
+};
+
+&pwm2 {
+    status = "disabled";
+};
+
+/* ====== ADC (如不需要) ====== */
+&saradc {
+    status = "disabled";
+};
+
+&tsadc {
+    status = "disabled";
+};
+
+/* ====== USB OTG / Gadget (如不需要) ====== */
+&usb_otg {
+    status = "disabled";
+};
+
+&usb2phy_otg {
+    status = "disabled";
+};
+
+/* ====== PCIe (如有, 不需要) ====== */
+&pcie {
+    status = "disabled";
+};

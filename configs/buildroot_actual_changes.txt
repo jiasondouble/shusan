@@ -1,0 +1,155 @@
+# ============================================================
+# 你当前 SDK 的 Buildroot 中需要关闭的具体选项
+# 根据诊断结果, 以下是实际存在且需要关掉的包
+#
+# 操作: 在 SDK 的 buildroot 目录下执行 make menuconfig
+#       按 "/" 搜索对应选项, 然后关闭它
+# ============================================================
+
+# ╔════════════════════════════════════════════════════╗
+# ║  需要关闭的选项 (按节省空间排序)                     ║
+# ╚════════════════════════════════════════════════════╝
+
+# ────────── ① Python 3.11 (节省 ~35 MB) ──────────
+#   搜索: BR2_PACKAGE_PYTHON3
+#   位置: Target packages → Interpreter languages → python3
+# BR2_PACKAGE_PYTHON3 is not set
+
+# ────────── ② udev hwdb (节省 ~9.3 MB) ──────────
+#   /etc/udev/hwdb.bin 是 systemd-udev 的硬件数据库
+#   搜索: BR2_PACKAGE_EUDEV / BR2_ROOTFS_DEVICE_TABLE_SUPPORTS_EXTENDED_ATTRIBUTES
+#   如果不能直接关掉 eudev, 可在 post-build 脚本中删除 hwdb.bin:
+#   echo 'rm -f $(TARGET_DIR)/etc/udev/hwdb.bin' >> board/rockchip/rk3506/post-build.sh
+
+# ────────── ③ rockchip-test (节省 ~8.7 MB) ──────────
+#   搜索: BR2_PACKAGE_ROCKCHIP_TEST
+#   位置: Target packages → Rockchip BSP packages → rockchip-test
+# BR2_PACKAGE_ROCKCHIP_TEST is not set
+
+# ────────── ④ V4L2 / DVB 视频 (节省 ~7 MB) ──────────
+#   搜索: BR2_PACKAGE_V4L_UTILS
+#   位置: Target packages → Hardware handling → v4l-utils
+# BR2_PACKAGE_V4L_UTILS is not set
+# BR2_PACKAGE_LIBV4L is not set
+
+# ────────── ⑤ GStreamer (节省 ~4 MB) ──────────
+#   搜索: BR2_PACKAGE_GSTREAMER1
+#   位置: Target packages → Audio and video applications → gstreamer 1.x
+# BR2_PACKAGE_GSTREAMER1 is not set
+# BR2_PACKAGE_GST1_PLUGINS_BASE is not set
+# BR2_PACKAGE_GST1_PLUGINS_GOOD is not set
+# BR2_PACKAGE_GST1_PLUGINS_BAD is not set
+
+# ────────── ⑥ WiFi 内核模块 (节省 ~5.9 MB) ──────────
+#   搜索: BR2_PACKAGE_RTL8723DU (或类似)
+#   位置: 内核 menuconfig 中关闭 WiFi 驱动
+#   同时在 buildroot 中:
+# BR2_PACKAGE_LINUX_FIRMWARE is not set
+#   或只关闭 WiFi 固件:
+# BR2_PACKAGE_LINUX_FIRMWARE_AIC8800 is not set
+# BR2_PACKAGE_LINUX_FIRMWARE_RTL_BT is not set
+
+# ────────── ⑦ WiFi 工具 (节省 ~3.5 MB) ──────────
+#   搜索: BR2_PACKAGE_WPA_SUPPLICANT
+# BR2_PACKAGE_WPA_SUPPLICANT is not set
+# BR2_PACKAGE_HOSTAPD is not set
+
+# ────────── ⑧ 蓝牙 (节省 ~4.8 MB) ──────────
+#   搜索: BR2_PACKAGE_BLUEZ5_UTILS
+# BR2_PACKAGE_BLUEZ5_UTILS is not set
+# BR2_PACKAGE_BLUEZ_ALSA is not set
+#   同时搜索 Rockchip BSP 中的蓝牙相关:
+# BR2_PACKAGE_RKWIFIBT is not set
+# BR2_PACKAGE_RKWIFIBT_RTK is not set
+# BR2_PACKAGE_RKWIFIBT_AIC is not set
+# BR2_PACKAGE_BROADCOM_BSA is not set
+
+# ────────── ⑨ ALSA 音频 (节省 ~3 MB) ──────────
+#   搜索: BR2_PACKAGE_ALSA_LIB
+# BR2_PACKAGE_ALSA_LIB is not set
+# BR2_PACKAGE_ALSA_UTILS is not set
+# BR2_PACKAGE_ALSA_PLUGINS is not set
+# BR2_PACKAGE_LIBSAMPLERATE is not set
+# BR2_PACKAGE_SPANDSP is not set
+
+# ────────── ⑩ ADB 调试 (节省 ~2.9 MB) ──────────
+#   搜索: BR2_PACKAGE_ANDROID_TOOLS_ADBD 或 BR2_PACKAGE_ADBD
+# BR2_PACKAGE_ANDROID_TOOLS is not set
+# BR2_PACKAGE_ANDROID_TOOLS_ADBD is not set
+
+# ────────── ⑪ ripgrep (节省 ~3.6 MB) ──────────
+# BR2_PACKAGE_RIPGREP is not set
+
+# ────────── ⑫ Rockchip 多媒体 (节省 ~2.5 MB) ──────────
+#   搜索: BR2_PACKAGE_ROCKIT / BR2_PACKAGE_RGA
+# BR2_PACKAGE_ROCKIT is not set
+# BR2_PACKAGE_ROCKCHIP_RGA is not set
+
+# ────────── ⑬ OpenSSH → 改 dropbear (节省 ~3 MB) ──────────
+#   搜索: BR2_PACKAGE_OPENSSH
+# BR2_PACKAGE_OPENSSH is not set
+BR2_PACKAGE_DROPBEAR=y
+
+# ────────── ⑭ LVGL 图形库 (节省 ~1.1 MB) ──────────
+# BR2_PACKAGE_LVGL is not set
+# BR2_PACKAGE_LV_DRIVERS is not set
+
+# ────────── ⑮ irqbalance (节省 ~1.2 MB) ──────────
+# BR2_PACKAGE_IRQBALANCE is not set
+
+# ────────── ⑯ bash (节省 ~0.9 MB, 用 busybox ash) ──────────
+# BR2_PACKAGE_BASH is not set
+
+# ────────── ⑰ inotify-tools (节省 ~0.6 MB) ──────────
+# BR2_PACKAGE_INOTIFY_TOOLS is not set
+
+# ────────── ⑱ input-event-daemon (节省 ~0.4 MB) ──────────
+# BR2_PACKAGE_INPUT_EVENT_DAEMON is not set
+
+# ────────── ⑲ libtiff (节省 ~0.5 MB) ──────────
+# BR2_PACKAGE_TIFF is not set
+
+# ────────── ⑳ libdrm (节省 ~0.1 MB) ──────────
+#   如果无显示需求:
+# BR2_PACKAGE_LIBDRM is not set
+
+# ────────── ㉑ DRM modetest (节省 ~0.6 MB) ──────────
+# BR2_PACKAGE_LIBDRM_INSTALL_TESTS is not set
+
+# ╔════════════════════════════════════════════════════╗
+# ║  Buildroot post-build 清理 (在 post-build.sh 中)   ║
+# ╚════════════════════════════════════════════════════╝
+#
+# 在 board/rockchip/rk3506/post-build.sh 中添加:
+#
+# # 删除 udev hwdb
+# rm -f ${TARGET_DIR}/etc/udev/hwdb.bin
+#
+# # 删除 rockchip-test
+# rm -rf ${TARGET_DIR}/rockchip-test
+#
+# # 删除 /info
+# rm -rf ${TARGET_DIR}/info
+#
+# # 清理 zoneinfo (仅保留 Asia/Shanghai)
+# if [ -d ${TARGET_DIR}/usr/share/zoneinfo ]; then
+#     TMPZONE=$(mktemp -d)
+#     mkdir -p ${TMPZONE}/Asia
+#     cp ${TARGET_DIR}/usr/share/zoneinfo/Asia/Shanghai ${TMPZONE}/Asia/ 2>/dev/null
+#     cp ${TARGET_DIR}/usr/share/zoneinfo/UTC ${TMPZONE}/ 2>/dev/null
+#     rm -rf ${TARGET_DIR}/usr/share/zoneinfo
+#     mv ${TMPZONE} ${TARGET_DIR}/usr/share/zoneinfo
+# fi
+#
+# # 删除 bash-completion
+# rm -rf ${TARGET_DIR}/usr/share/bash-completion
+
+# ╔════════════════════════════════════════════════════╗
+# ║  预计效果                                          ║
+# ╚════════════════════════════════════════════════════╝
+#
+# 当前:  80.1 MB (UBIFS on-disk)
+# 预计删除 (未压缩): ~105 MB
+# UBIFS 压缩比约 55%
+# 预计节省 on-disk: ~55 MB
+# 裁剪后预计: ~25 MB (UBIFS on-disk)
