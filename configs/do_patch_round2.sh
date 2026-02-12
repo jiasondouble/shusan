@@ -71,10 +71,9 @@ disable_option "BR2_PACKAGE_V4L_UTILS_COMPLIANCE"  "v4l2-compliance"
 echo ""
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-echo "【3】OpenSSH → dropbear ~4MB"
+echo "【3】保留 OpenSSH (用户要求保留SSH)"
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-disable_option "BR2_PACKAGE_OPENSSH"               "openssh 4MB→dropbear 0.2MB"
-enable_option  "BR2_PACKAGE_DROPBEAR"              "dropbear 轻量SSH"
+echo "  [保留] BR2_PACKAGE_OPENSSH  (用户需要SSH)"
 echo ""
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
